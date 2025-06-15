@@ -1,25 +1,18 @@
-# DrLungker
-DrLungker combines ResNet, FNN, and RNN-LSTM with ensemble methods (Averaging, Voting, Stacking), trained on 5,886 lung cancer bioassay descriptors from PubChem and ChEMBL. It predicts compound activity (active/inactive), and scores active ones from 1 to 10.
+# DrLungker: Deep-Ensemble Learning for Predicting Compound Activity against Lung Cancer and Probing Multitarget Potency via WaterMap, DFT, MD Simulation, and MMGBSA Studies
 
-# DeepEntXAI
-
-**DeepEntXAI: A CNN-LSTM + Explainable AI Framework for Predicting Drug Activity Against Enterobacteriaceae**
-
-DeepEntXAI is a hybrid deep learning framework developed to predict the biological activity of chemical compounds against **Enterobacteriaceae** pathogens (e.g., *E. coli*, *K. pneumoniae*, *S. enterica*) using molecular descriptors. The framework combines a **CNN-LSTM** architecture with **explainable AI (XAI)** techniques to achieve state-of-the-art prediction accuracy while ensuring model interpretability. It supports both labelled and unlabelled compound predictions and includes tools for compound prioritisation and descriptor relevance evaluation.
+The DrLungker model combines ResNet, Feedforward Neural Network (FNN), and RNN-LSTM architectures, and uses three ensemble techniques: Averaging, Majority Voting, and Stacking. It is trained on 5,886 molecular descriptors derived from lung cancer bioassay data obtained from PubChem and ChEMBL.
+The model can predict whether a compound is active or inactive against lung cancer. If a compound is predicted to be active, the model further provides an activity score on a scale from 1 to 10, indicating the degree of activity.
 
 ---
 
 ## 📌 Key Features
 
-* **Hybrid Deep Learning Model**: Combines CNN and LSTM to capture both local and long-range dependencies in molecular descriptor sequences.
-* **High Accuracy**: Achieved 99.80% accuracy, 99.63% precision, and 99.94% recall on test data.
-* **Generalisation**: Demonstrated strong generalisation through 5-fold and 10-fold cross-validation with average accuracies of 99.09% ± 0.36% and 99.13% ± 0.27%, respectively.
-* **Explainability**: Integrates both:
-
-  * A **hybrid perturbation-based XAI** method (accuracy drop, flip ratio, log-loss increase)
-  * **LIME** for local interpretability and compound-specific insights.
+* **Comprises Multiple Deep Learning Models**: Combines ResNet, FNN and LSTM to capture both local and long-range dependencies in molecular descriptor sequences of Lung Cancer BioAssays.
+* **High Accuracy**: Achieved beyond 99% accuracy, precision, and recall on test data.
+* **Generalisation**: Demonstrated strong generalisation through 5-fold and 10-fold cross-validation with average accuracies of 97%.
 * **Prediction on Unlabelled Data**: Scores new compounds (0–10 scale) to identify high-potential drug candidates.
 * **Output-Ready Results**: Generates CSV files with prediction probabilities, scaled activity scores, and interpretability rankings.
+* **SDF extractor**: The code extracts the SDF file ready for structural validation, docking studies and other downstream analysis.
 
 ---
 
@@ -28,7 +21,6 @@ DeepEntXAI is a hybrid deep learning framework developed to predict the biologic
 ```
 DeepEntXAI/
 ├── data/                        # Sample_Dataset.csv, SampleInput molecular descriptors (CSV format)
-├── models/                      # 1_CNN_LSTM_XAI.pth, Trained models and saved weights
 ├── notebooks/                   # Enterobacteriaceae_Code.ipynb, Code with outputs (CNN-LSTM-XAI)
 ├── README.md                    # README.md, Project documentation
 └── LICENSE                      # LICENSE.md, License file
@@ -39,15 +31,15 @@ DeepEntXAI/
 ## 📊 Dataset
 
 * **Source**: PubChem and ChEMBL BioAssays relevant to Enterobacteriaceae.
-* **Size**: 17,097 compounds with 2,997 descriptors each (selected 2000 with PCA).
-* **Descriptors**: Computed using **RDKit**, **Mordred**, and **PaDEL**.
+* **Size**: From ChEMBL, we obtained 18,349 Active and 1,50,836 Inactive compounds; from PubChem, we obtained 17,455 Active and 2,99,607 Inactive compounds taken for the LigPrep. After LigPrep, we obtained 18172 ligands for the Active and 150109 Inactive from the ChEMBL library, whereas 16,566 Active and 2,86,269 Inactive compounds from the PubChem library. After removing the duplicates, 4,537 and 8661 unique compounds in Active libraries of ChEMBL and PubChem, respectively, the same number of compounds were taken from Inactive and merged together, making 26,396 unique compounds with the label Active (1) and Inactive (0) ready for Deep and Ensemble Learning.
+* **Final Data Size for Training**: 26,396 unique compounds with 5886 descriptors each.
+* **Descriptors**: Computed using **AlvaDesc** and **QikProp**.
 * **Preprocessing**:
 
   * Structure standardisation
   * Duplicate removal
   * Descriptor curation
   * and many more, read the full paper. 
-  * Final active set: 8,097 ligands, 9000 Inactive compounds. 
 
 ---
 
@@ -56,8 +48,8 @@ DeepEntXAI/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/ShabanAhmad/DeepEntXAI.git 
-cd DeepEntXAI
+git clone https://github.com/ShabanAhmad/DrLungker.git 
+cd DrLungker
 ```
 
 ### 2. Set Up the Environment
@@ -91,25 +83,8 @@ python src/explain_lime.py --input data/test.csv --model models/ _weights.h5
 
 ## 📈 Results Summary
 
-| Metric                     | Score          |
-| -------------------------- | -------------- |
-| Accuracy                   | 99.80%         |
-| Precision                  | 99.63%         |
-| Recall (Sensitivity)       | 99.94%         |
-| F1-Score                   | 99.78%         |
-| Specificity                | 99.67%         |
-| AUC-ROC                    | 0.998          |
-| Cross-Validation (5-fold)  | 99.09% ± 0.36% |
-| Cross-Validation (10-fold) | 99.13% ± 0.27% |
-
+Available in the manuscript. 
 ---
-
-## 🧠 XAI Insights
-
-* **Top Feature**: `minHsNH3p` – High perturbation sensitivity across accuracy, flip ratio, and log-loss.
-* **Low-Importance Features**: `geomDiameter`, `nG12FRing`, `BCUTZ-1l`
-* **Top Compounds (by confidence)**: `4615770`, `5309708`, `70556`, with scaled scores \~9.9999
-* **Least Certain Compounds**: Predictions near 0.5 threshold, structurally ambiguous
 
 ---
 
@@ -118,7 +93,7 @@ python src/explain_lime.py --input data/test.csv --model models/ _weights.h5
 * Active compound screening
 * Compound efficacy assessment
 * Drug repurposing
-* Prioritisation for **Enterobacteriaceae** infections (e.g., UTIs, BSIs, sepsis)
+* Prioritisation for **Lung Cancer**
 * Feature-driven compound design
 
 ---
@@ -139,10 +114,13 @@ We welcome contributions from the community. Please open issues or submit pull r
 
 For questions or collaboration inquiries, please contact:
 
-**Author**: *\Nagmi Bano1, Dr Shaban Ahmad1,2, Prof Khalid Raza1*
-**Email**: *\nagmi2300973@st.jmi.ac.in, Shaban@sund.ku.dk, kraza@jmi.ac.in*
-**Institution**: *\
+**Author**: *\Dr Shaban Ahmad1,2, Prof Khalid Raza1*
+
+**Email**: *\Shaban@sund.ku.dk, kraza@jmi.ac.in*
+
+**Institutions**: *\
 1 Department of Computer Science, Jamia Millia Islamia, New Delhi-110025, India.
-2 Preclinical Disease Biology Section, Department of Veterinary and Animal Sciences, Faculty of Health and Medical Sciences, University of Copenhagen, Frederiksberg, Denmark.*
+
+2 Biomedicine Section, Department of Veterinary and Animal Sciences, Faculty of Health and Medical Sciences, University of Copenhagen, Frederiksberg, Denmark.*
 
 ---
