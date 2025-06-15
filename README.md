@@ -1,6 +1,6 @@
 # DrLungker: Deep-Ensemble Learning for Predicting Compound Activity against Lung Cancer and Probing Multitarget Potency via WaterMap, DFT, MD Simulation, and MMGBSA Studies
 
-The DrLungker model combines ResNet, Feedforward Neural Network (FNN), and RNN-LSTM architectures, and uses three ensemble techniques: Averaging, Majority Voting, and Stacking. It is trained on 5,886 molecular descriptors derived from lung cancer bioassay data obtained from PubChem and ChEMBL.
+The DrLungker model combines ResNet, Feedforward Neural Network (FNN), and RNN-LSTM architectures, and uses three ensemble techniques: Averaging, Majority Voting, and Stacking. It is trained on 5,883 molecular descriptors derived from lung cancer bioassay data obtained from PubChem and ChEMBL.
 The model can predict whether a compound is active or inactive against lung cancer. If a compound is predicted to be active, the model further provides an activity score on a scale from 1 to 10, indicating the degree of activity.
 
 ---
@@ -32,7 +32,7 @@ DeepEntXAI/
 
 * **Source**: PubChem and ChEMBL BioAssays relevant to Enterobacteriaceae.
 * **Size**: From ChEMBL, we obtained 18,349 Active and 1,50,836 Inactive compounds; from PubChem, we obtained 17,455 Active and 2,99,607 Inactive compounds taken for the LigPrep. After LigPrep, we obtained 18172 ligands for the Active and 150109 Inactive from the ChEMBL library, whereas 16,566 Active and 2,86,269 Inactive compounds from the PubChem library. After removing the duplicates, 4,537 and 8661 unique compounds in Active libraries of ChEMBL and PubChem, respectively, the same number of compounds were taken from Inactive and merged together, making 26,396 unique compounds with the label Active (1) and Inactive (0) ready for Deep and Ensemble Learning.
-* **Final Data Size for Training**: 26,396 unique compounds with 5886 descriptors each.
+* **Final Data Size for Training**: 26,396 unique compounds with 5883 descriptors each.
 * **Descriptors**: Computed using **AlvaDesc** and **QikProp**.
 * **Preprocessing**:
 
