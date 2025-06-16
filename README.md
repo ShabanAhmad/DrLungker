@@ -1,4 +1,5 @@
-# DrLungker: Deep-Ensemble Learning for Predicting Compound Activity against Lung Cancer and Probing Multitarget Potency via WaterMap, DFT, MD Simulation, and MMGBSA Studies
+# DrLungker
+# Deep-Ensemble Learning for Predicting Compound Activity against Lung Cancer and Probing Multitarget Potency via WaterMap, DFT, MD Simulation, and MMGBSA Studies
 
 The DrLungker model combines ResNet, Feedforward Neural Network (FNN), and RNN-LSTM architectures, and uses three ensemble techniques: Averaging, Majority Voting, and Stacking. It is trained on 5,883 molecular descriptors derived from lung cancer bioassay data obtained from PubChem and ChEMBL.
 The model can predict whether a compound is active or inactive against lung cancer. If a compound is predicted to be active, the model further provides an activity score on a scale from 1 to 10, indicating the degree of activity.
